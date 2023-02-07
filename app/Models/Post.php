@@ -15,4 +15,9 @@ class Post extends Model
         return $this->belongsTo(Website::class);
     }
 
+    public function sents()
+    {
+        return $this->hasMany(SentPost::class);
+    }
+
 }
