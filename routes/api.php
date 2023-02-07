@@ -20,6 +20,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::controller(SubscriptionPlatformController::class)->group(function () {
-    Route::post('/post/', 'post');
-    Route::post('/subscript', 'subscribe');
+    Route::post('/post', 'post');
+    Route::post('/subscribe', 'subscribe');
 });
