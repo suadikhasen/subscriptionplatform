@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\PostMail;
 use App\Models\Post;
+use App\Models\SentPost;
 use App\Models\UserSubscription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -37,7 +38,14 @@ class PostEmailJob implements ShouldQueue
     {
         UserSubscription::with(['users'])->where('status',true)->chunk(100,function($userSubscriptions){
             foreach($userSubscriptions as $singleSubscription){
-                Mail::to($singleSubscription->user)->queue(new PostMail($this->post));
+                if($singleSubscription->website_id == $this->post->website_id){
+                    Mail::to($singleSubscription->user)->queue(new PostMail($this->post));
+                    SentPost::create([
+                      'user_id'=>$singleSubscription->user->id,
+                      'post_id'=>$this->post->id
+                    ]);
+                }
+                
             }
         });
     }
