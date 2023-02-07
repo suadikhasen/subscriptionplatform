@@ -25,7 +25,8 @@ class SubscriptionRequest extends FormRequest
     {
         return [
             'user_id'=>'required|exists:users,id',
-            'subscription_id'=>'required|exists:subscriptions,id'
+            'subscription_id'=>'required|exists:subscriptions,id',
+            'website_id'=>'required|exists:websites,id'
         ];
     }
 }

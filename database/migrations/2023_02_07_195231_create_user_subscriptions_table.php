@@ -17,11 +17,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('subscription_id');
+            $table->unsignedBigInteger('website_id');
+
             $table->date('start_date');
             $table->date('expired_date');
             $table->boolean('status');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('website_id')->references('id')->on('websites')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }

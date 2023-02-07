@@ -28,7 +28,8 @@ class SubscriptionPlatformController extends Controller
          $userSubscription = UserSubscription::create([
             'user_id'=>$subscriptionRequest->user_id,
             'start_date'=>Carbon::today(),
-            'expired_date'=>Carbon::today()->addDays($subscription->druation)
+            'expired_date'=>Carbon::today()->addDays($subscription->druation),
+            'website_id'=>$subscriptionRequest->website_id
          ]);
          return response()->json([
             'subscription'=>$userSubscription,
