@@ -2,13 +2,16 @@
 
 namespace App\Jobs;
 
+use App\Mail\PostMail;
 use App\Models\Post;
+use App\Models\UserSubscription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class PostEmailJob implements ShouldQueue
 {
@@ -32,6 +35,10 @@ class PostEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        
+        UserSubscription::with(['users'])->where('status',true)->chunk(100,function($userSubscriptions){
+            foreach($userSubscriptions as $singleSubscription){
+                Mail::to($singleSubscription->user)->queue(new PostMail($this->post));
+            }
+        });
     }
 }

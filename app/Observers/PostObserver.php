@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\PostEmailJob;
 use App\Models\Post;
 
 class PostObserver
@@ -14,6 +15,6 @@ class PostObserver
      */
     public function created(Post $post)
     {
-        
+        PostEmailJob::dispatch($post);
     }
 }
